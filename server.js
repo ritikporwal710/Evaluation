@@ -12,7 +12,17 @@ app.get('/', (req,res)=>{
     res.send('Welcome to the Student course management');
 })
 
-app.post('/course', async(req,res)=>{
+app.get('/courses', async(req,res)=>{
+    try {
+        const courses = await Course.find({})
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message}) 
+    }
+
+})
+
+app.post('/courses', async(req,res)=>{
     try {
         const course = await Course.create(req.body)
         res.status(200).json(course);
@@ -23,6 +33,8 @@ app.post('/course', async(req,res)=>{
         
     }
 })
+
+
 
 app.listen(3000, ()=>{
     console.log(`Node Api is running on port 3000`); 
